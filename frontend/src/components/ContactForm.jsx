@@ -4,7 +4,7 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
   const [name, setName] = useState(existingContact.name || "");
   const [email, setEmail] = useState(existingContact.email || "");
   const [phone, setPhone] = useState(existingContact.phone || "");
-  const [message, setMessage] = useState(existingContact.phone || "");
+  const [message, setMessage] = useState(existingContact.message || "");
 
   const updating = Object.entries(existingContact).length !== 0;
 
@@ -21,7 +21,7 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
       "http://127.0.0.1:5000/" +
       (updating ? `update-contact/${existingContact.id}` : "create-contact");
     const options = {
-      method: updating ? "PATCH" : "POST",
+      method: updating ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,6 +32,7 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
       const data = await response.json();
       alert(data.message);
     } else {
+      await new Promise((resolve) => setTimeout(resolve, 500));
       updateCallback();
     }
   };
@@ -47,7 +48,7 @@ const ContactForm = ({ existingContact = {}, updateCallback }) => {
 
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-700 font-medium mb-1">
-          First Name:
+          Name:
         </label>
         <input
           type="text"

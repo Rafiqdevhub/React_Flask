@@ -8,10 +8,6 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentContact, setCurrentContact] = useState({});
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
   const fetchContacts = async () => {
     const response = await fetch("http://127.0.0.1:5000/contacts");
     const data = await response.json();
@@ -33,10 +29,14 @@ function App() {
     setIsModalOpen(true);
   };
 
-  const onUpdate = () => {
+  const onUpdate = async () => {
+    await fetchContacts();
     closeModal();
-    fetchContacts();
   };
+
+  useEffect(() => {
+    fetchContacts();
+  }, [contacts]);
 
   return (
     <div className="flex flex-col items-center p-6">
