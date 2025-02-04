@@ -2,6 +2,10 @@ from flask import request, jsonify
 from config import app, db
 from models import Contact
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({"message": "Hello World"})
+
 @app.route('/contacts', methods=['GET'])
 def get_contact():
     contacts = Contact.query.all()
